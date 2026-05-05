@@ -1,33 +1,42 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-lang="it">
 <head>
   <!--
     Archivio Accademico
     Curato da Luca Giuliano — archivio.lvca@gmail.com
+    Versione bilingue IT/EN, rev. 9 — Times New Roman, verde menta dei volantini, splash essenziale
   -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Archivio Accademico</title>
   <meta name="description" content="Archivio di materiali didattici universitari curati. Esplora il catalogo o condividi le tue dispense.">
 
-  <!-- Open Graph: anteprima pulita quando il link viene condiviso -->
   <meta property="og:title" content="Archivio Accademico">
   <meta property="og:description" content="Materiali didattici universitari curati.">
   <meta property="og:type" content="website">
 
-  <!-- Tipografia: Fraunces (display, distintiva) + Manrope (testo, sobria) -->
+  <!-- Solo Manrope (corpo) e IBM Plex Mono (etichette).
+       Il serif è Times New Roman, font di sistema. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --ink: #0a1729;          /* blu mezzanotte */
-      --ink-soft: #1e2a3f;
-      --paper: #fafaf7;        /* bianco avorio caldo */
-      --paper-tint: #f3f1ea;
-      --rule: #d8d4c7;
-      --accent: #b8945c;       /* oro tenue, usato con parsimonia */
+      /* Verde menta esatto dei volantini.
+         Per provare una variante più tenue (più editoriale, meno "pop"):
+            --accent: #7ba896;
+         Per una variante ancora più scura (registro Adelphi puro):
+            --accent: #5a8a78;
+      */
+      --ink: #0a0a0a;
+      --ink-soft: #2a2a2a;
+      --paper: #fafaf7;
+      --rule: #c8c4b7;
+      --accent: #4ade80;
+
+      /* Famiglia serif unificata: Times New Roman con fallback robusti */
+      --serif: 'Times New Roman', Times, 'Liberation Serif', serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,18 +58,122 @@
       padding: 2.5rem 1.5rem;
     }
 
-    /* Texture sottile di sfondo per dare profondità senza appesantire */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(circle at 20% 10%, rgba(10,23,41,0.025) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 90%, rgba(10,23,41,0.02) 0%, transparent 50%);
+      background-image: radial-gradient(circle at 20% 10%, rgba(10,10,10,0.02) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 90%, rgba(10,10,10,0.015) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
 
-    main {
+    /* Visibilità per lingua */
+    [data-i18n] > [lang="it"],
+    [data-i18n] > [lang="en"] { display: none; }
+
+    html[data-lang="it"] [data-i18n] > [lang="it"],
+    html[data-lang="en"] [data-i18n] > [lang="en"] { display: inline; }
+
+    html[data-lang="it"] [data-i18n="block"] > [lang="it"],
+    html[data-lang="en"] [data-i18n="block"] > [lang="en"] { display: block; }
+
+    /* ==========================================
+       SPLASH PAGE — essenziale: solo titolo + pulsanti
+       ========================================== */
+    #splash {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      width: 100%;
+      margin: auto;
+      text-align: center;
+    }
+
+    .splash-title {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(2.4rem, 8.5vw, 3.4rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      opacity: 0;
+      animation: fadeUp 0.7s ease-out 0.15s forwards;
+    }
+
+    .splash-title .it,
+    .splash-title .en {
+      display: block;
+    }
+
+    .splash-title .en {
+      font-style: italic;
+      font-size: 0.65em;
+      font-weight: 400;
+      color: var(--ink-soft);
+      margin-top: 0.4rem;
+    }
+
+    .splash-prompt {
+      margin-top: 2.5rem;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      opacity: 0;
+      animation: fadeUp 0.7s ease-out 0.4s forwards;
+    }
+
+    .splash-prompt > span { display: block; line-height: 1.9; }
+    .splash-prompt > span:last-child { opacity: 0.55; }
+
+    .lang-buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease-out 0.6s forwards;
+    }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      padding: 1rem 1.4rem;
+      border-radius: 0;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      min-height: 56px;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .lang-btn svg {
+      width: 22px;
+      height: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 1px rgba(10,10,10,0.15);
+    }
+
+    /* ==========================================
+       LANDING
+       ========================================== */
+    #landing {
       position: relative;
       z-index: 1;
       max-width: 520px;
@@ -68,28 +181,87 @@
       margin: auto;
     }
 
-    /* Header — animazione staggered al caricamento */
-    .eyebrow {
-      font-family: 'Manrope', sans-serif;
+    .lang-switcher {
+      position: absolute;
+      top: -0.5rem;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      z-index: 2;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
       font-size: 0.72rem;
-      font-weight: 600;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .lang-switcher button {
+      background: none;
+      border: none;
+      color: var(--ink-soft);
+      cursor: pointer;
+      padding: 0.15rem 0.05rem;
+      font: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+      opacity: 0.5;
+      transition: opacity 0.2s ease, color 0.2s ease;
+    }
+
+    .lang-switcher button:hover { opacity: 1; }
+
+    .lang-switcher button.active {
+      opacity: 1;
+      color: var(--ink);
+    }
+
+    .lang-switcher .sep {
+      color: var(--rule);
+      user-select: none;
+    }
+
+    .welcome {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
       letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      animation: fadeUp 0.5s ease-out forwards, fadeOut 0.5s ease-out 2.5s forwards;
+    }
+
+    .eyebrow {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--ink-soft);
       opacity: 0;
-      animation: fadeUp 0.7s ease-out 0.1s forwards;
+      animation: fadeUp 0.7s ease-out 3s forwards;
+    }
+
+    .eyebrow .ed {
+      color: var(--ink);
+      margin-right: 0.4rem;
+    }
+
+    .eyebrow .sep {
+      color: var(--rule);
+      margin: 0 0.4rem;
     }
 
     h1 {
-      font-family: 'Fraunces', Georgia, serif;
+      font-family: var(--serif);
       font-weight: 500;
       font-size: clamp(2.4rem, 8vw, 3.4rem);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
       margin-top: 1rem;
       color: var(--ink);
       opacity: 0;
-      animation: fadeUp 0.7s ease-out 0.25s forwards;
+      animation: fadeUp 0.7s ease-out 3.15s forwards;
     }
 
     h1 em {
@@ -99,23 +271,23 @@
     }
 
     .rule {
-      width: 48px;
+      width: 60px;
       height: 1px;
       background: var(--rule);
       margin: 2rem 0;
       opacity: 0;
-      animation: expandRule 0.8s ease-out 0.4s forwards;
+      animation: expandRule 0.8s ease-out 3.3s forwards;
     }
 
     .lead {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 1.15rem;
+      font-family: var(--serif);
+      font-size: 1.2rem;
       font-weight: 400;
-      line-height: 1.55;
-      color: var(--ink-soft);
+      line-height: 1.5;
+      color: var(--ink);
       max-width: 42ch;
       opacity: 0;
-      animation: fadeUp 0.7s ease-out 0.5s forwards;
+      animation: fadeUp 0.7s ease-out 3.4s forwards;
     }
 
     .description {
@@ -124,17 +296,16 @@
       color: var(--ink-soft);
       max-width: 46ch;
       opacity: 0;
-      animation: fadeUp 0.7s ease-out 0.65s forwards;
+      animation: fadeUp 0.7s ease-out 3.55s forwards;
     }
 
-    /* CTA — i due pulsanti, gerarchia chiara */
     .actions {
       margin-top: 2.75rem;
       display: flex;
       flex-direction: column;
       gap: 0.875rem;
       opacity: 0;
-      animation: fadeUp 0.7s ease-out 0.8s forwards;
+      animation: fadeUp 0.7s ease-out 3.7s forwards;
     }
 
     .btn {
@@ -143,23 +314,24 @@
       justify-content: space-between;
       gap: 1rem;
       padding: 1.1rem 1.4rem;
-      border-radius: 4px;
+      border-radius: 0;
       text-decoration: none;
       font-weight: 500;
       font-size: 1rem;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-      min-height: 56px;          /* target tappabile generoso */
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      min-height: 56px;
       border: 1px solid transparent;
     }
 
     .btn-primary {
       background: var(--ink);
       color: var(--paper);
+      border-color: var(--ink);
     }
 
     .btn-primary:hover {
-      background: var(--ink-soft);
-      transform: translateY(-1px);
+      background: var(--paper);
+      color: var(--ink);
     }
 
     .btn-secondary {
@@ -171,32 +343,34 @@
     .btn-secondary:hover {
       background: var(--ink);
       color: var(--paper);
-      transform: translateY(-1px);
     }
 
     .btn-label {
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.25rem;
       align-items: flex-start;
     }
 
     .btn-label-main {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 1.1rem;
+      font-family: var(--serif);
+      font-size: 1.15rem;
       font-weight: 500;
-      line-height: 1.1;
+      line-height: 1.15;
     }
 
     .btn-label-sub {
-      font-size: 0.78rem;
-      opacity: 0.75;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 0.68rem;
       font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.7;
     }
 
     .btn-arrow {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 1.5rem;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 1.25rem;
       line-height: 1;
       transition: transform 0.2s ease;
     }
@@ -205,67 +379,217 @@
       transform: translateX(4px);
     }
 
-    /* Animazioni */
+    /* Utente di ritorno: salta il saluto, animazioni accelerate */
+    html[data-returning="true"] .welcome { display: none; }
+    html[data-returning="true"] .eyebrow { animation-delay: 0.1s; }
+    html[data-returning="true"] h1 { animation-delay: 0.25s; }
+    html[data-returning="true"] .rule { animation-delay: 0.4s; }
+    html[data-returning="true"] .lead { animation-delay: 0.5s; }
+    html[data-returning="true"] .description { animation-delay: 0.65s; }
+    html[data-returning="true"] .actions { animation-delay: 0.8s; }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes expandRule {
-      from { width: 0; opacity: 0; }
-      to   { width: 48px; opacity: 1; }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; visibility: hidden; }
     }
 
-    /* Rispetto delle preferenze utente — niente animazioni se ridotte */
+    @keyframes expandRule {
+      from { width: 0; opacity: 0; }
+      to   { width: 60px; opacity: 1; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-delay: 0ms !important;
         transition-duration: 0.01ms !important;
       }
+      .welcome { display: none; }
     }
 
-    /* Mobile fine-tuning */
     @media (max-width: 480px) {
       body { padding: 2rem 1.25rem; }
       .actions { gap: 0.75rem; }
+      .lang-switcher { top: -0.25rem; }
     }
   </style>
 </head>
 
 <body>
-  <main>
-    <p class="eyebrow">Archivio Accademico</p>
+  <!-- SPLASH essenziale -->
+  <section id="splash">
+    <h1 class="splash-title">
+      <span class="it">Archivio Accademico</span>
+      <span class="en">Academic Archive</span>
+    </h1>
 
-    <h1>Studio condiviso, <em>tracciato</em>, curato.</h1>
+    <p class="splash-prompt">
+      <span>Seleziona la lingua</span>
+      <span>Select your language</span>
+    </p>
+
+    <div class="lang-buttons">
+      <button type="button" class="lang-btn" data-choose="it" aria-label="Continua in italiano">
+        <svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="1" height="2" x="0" fill="#009246"/>
+          <rect width="1" height="2" x="1" fill="#ffffff"/>
+          <rect width="1" height="2" x="2" fill="#ce2b37"/>
+        </svg>
+        <span>IT</span>
+      </button>
+
+      <button type="button" class="lang-btn" data-choose="en" aria-label="Continue in English">
+        <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <clipPath id="uk-clip"><rect width="60" height="30"/></clipPath>
+          <g clip-path="url(#uk-clip)">
+            <rect width="60" height="30" fill="#012169"/>
+            <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+            <path d="M30,0 V30 M0,15 H60" stroke="#fff" stroke-width="10"/>
+            <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/>
+          </g>
+        </svg>
+        <span>EN</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- LANDING -->
+  <main id="landing" hidden>
+    <nav class="lang-switcher" aria-label="Cambia lingua / Switch language">
+      <button type="button" data-switch="it" class="active">IT</button>
+      <span class="sep" aria-hidden="true">·</span>
+      <button type="button" data-switch="en">EN</button>
+    </nav>
+
+    <p class="welcome" data-i18n>
+      <span lang="it">Benvenuto</span>
+      <span lang="en">Welcome</span>
+    </p>
+
+    <p class="eyebrow" data-i18n>
+      <span lang="it"><span class="ed">No. 01</span><span class="sep">·</span>Archivio Accademico</span>
+      <span lang="en"><span class="ed">No. 01</span><span class="sep">·</span>Academic Archive</span>
+    </p>
+
+    <h1 data-i18n="block">
+      <span lang="it">Studio condiviso, <em>tracciato</em>, curato.</span>
+      <span lang="en">Shared study, <em>traced</em>, curated.</span>
+    </h1>
 
     <div class="rule" aria-hidden="true"></div>
 
-    <p class="lead">
-      Un piccolo archivio di tesi, appunti e dispense universitarie, scelte e revisionate singolarmente.
+    <p class="lead" data-i18n="block">
+      <span lang="it">Un piccolo archivio di tesi, appunti e dispense universitarie, scelte e revisionate singolarmente.</span>
+      <span lang="en">A small archive of university theses, notes and study materials, individually selected and reviewed.</span>
     </p>
 
-    <p class="description">
-      Esplora il catalogo dal bot Telegram per ordinare il materiale, oppure proponi un tuo lavoro: per ogni copia venduta ti spetta una quota del ricavo.
+    <p class="description" data-i18n="block">
+      <span lang="it">Esplora il catalogo dal bot Telegram per ordinare il materiale, oppure proponi un tuo lavoro: per ogni copia venduta ti spetta una quota del ricavo.</span>
+      <span lang="en">Browse the catalogue through the Telegram bot to order materials, or submit your own work: you'll receive a share of the revenue for every copy sold.</span>
     </p>
 
     <div class="actions">
       <a class="btn btn-primary" href="https://t.me/daimon_archive_bot" target="_blank" rel="noopener">
         <span class="btn-label">
-          <span class="btn-label-main">Apri il bot</span>
-          <span class="btn-label-sub">Catalogo, anteprime, ordini</span>
+          <span class="btn-label-main" data-i18n>
+            <span lang="it">Apri il bot</span>
+            <span lang="en">Open the bot</span>
+          </span>
+          <span class="btn-label-sub" data-i18n>
+            <span lang="it">Catalogo · Anteprime · Ordini</span>
+            <span lang="en">Catalogue · Previews · Orders</span>
+          </span>
         </span>
         <span class="btn-arrow" aria-hidden="true">→</span>
       </a>
 
-      <a class="btn btn-secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSc1fwjPpKlX151SFpANgQj8SVJSt6q-vvb9gEdLu9iWuNmMZQ/viewform" target="_blank" rel="noopener">
+      <a class="btn btn-secondary" id="form-cta"
+         href="https://docs.google.com/forms/d/e/1FAIpQLSc1fwjPpKlX151SFpANgQj8SVJSt6q-vvb9gEdLu9iWuNmMZQ/viewform"
+         target="_blank" rel="noopener">
         <span class="btn-label">
-          <span class="btn-label-main">Condividi materiale</span>
-          <span class="btn-label-sub">Compila il modulo per contributori</span>
+          <span class="btn-label-main" data-i18n>
+            <span lang="it">Condividi materiale</span>
+            <span lang="en">Share your work</span>
+          </span>
+          <span class="btn-label-sub" data-i18n>
+            <span lang="it">Modulo per contributori</span>
+            <span lang="en">Contributor form</span>
+          </span>
         </span>
         <span class="btn-arrow" aria-hidden="true">→</span>
       </a>
     </div>
   </main>
+
+  <script>
+    // Sostituire il placeholder quando il Form EN sarà pubblicato.
+    const FORM_URLS = {
+      it: 'https://docs.google.com/forms/d/e/1FAIpQLSc1fwjPpKlX151SFpANgQj8SVJSt6q-vvb9gEdLu9iWuNmMZQ/viewform',
+      en: 'https://docs.google.com/forms/d/e/1FAIpQLSee7zXToVpLZUa7ib6JsP8LrP15G_wdDtQn8xLiC4TVZWDpqg/viewform'
+    };
+
+    const PAGE_TITLES = {
+      it: 'Archivio Accademico',
+      en: 'Academic Archive'
+    };
+
+    const STORAGE_KEY = 'archivio-lang';
+
+    function applyLanguage(lang) {
+      const htmlEl = document.documentElement;
+      htmlEl.setAttribute('data-lang', lang);
+      htmlEl.setAttribute('lang', lang);
+
+      document.title = PAGE_TITLES[lang];
+
+      const formCta = document.getElementById('form-cta');
+      if (formCta) formCta.href = FORM_URLS[lang];
+
+      document.querySelectorAll('[data-switch]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.switch === lang);
+      });
+
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignora */ }
+    }
+
+    function revealLanding(returning) {
+      const splash = document.getElementById('splash');
+      const landing = document.getElementById('landing');
+      if (splash) splash.hidden = true;
+      if (landing) landing.hidden = false;
+      if (returning) {
+        document.documentElement.setAttribute('data-returning', 'true');
+      }
+    }
+
+    (function init() {
+      let savedLang = null;
+      try { savedLang = localStorage.getItem(STORAGE_KEY); } catch (e) { /* ignora */ }
+
+      if (savedLang === 'it' || savedLang === 'en') {
+        applyLanguage(savedLang);
+        revealLanding(true);
+      }
+    })();
+
+    document.querySelectorAll('[data-choose]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.choose;
+        applyLanguage(lang);
+        revealLanding(false);
+      });
+    });
+
+    document.querySelectorAll('[data-switch]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyLanguage(btn.dataset.switch);
+      });
+    });
+  </script>
 </body>
 </html>
