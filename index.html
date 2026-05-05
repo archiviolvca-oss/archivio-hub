@@ -4,14 +4,14 @@
   <!--
     Archivio Accademico
     Curato da Luca Giuliano — archivio.lvca@gmail.com
-    Versione bilingue IT/EN, rev. 9 — Times New Roman, verde menta dei volantini, splash essenziale
+    Versione bilingue IT/EN, rev. 10 — nome pubblico "Liber", sottotitolo descrittivo bilingue
   -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Archivio Accademico</title>
-  <meta name="description" content="Archivio di materiali didattici universitari curati. Esplora il catalogo o condividi le tue dispense.">
+  <title>Liber — Archivio Accademico</title>
+  <meta name="description" content="Liber — archivio di materiali didattici universitari curati. Esplora il catalogo o condividi le tue dispense.">
 
-  <meta property="og:title" content="Archivio Accademico">
+  <meta property="og:title" content="Liber — Archivio Accademico">
   <meta property="og:description" content="Materiali didattici universitari curati.">
   <meta property="og:type" content="website">
 
@@ -93,25 +93,35 @@
     .splash-title {
       font-family: var(--serif);
       font-weight: 500;
-      font-size: clamp(2.4rem, 8.5vw, 3.4rem);
-      line-height: 1.1;
-      letter-spacing: -0.01em;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
       color: var(--ink);
       opacity: 0;
       animation: fadeUp 0.7s ease-out 0.15s forwards;
     }
 
-    .splash-title .it,
-    .splash-title .en {
+    .splash-title .brand {
       display: block;
+      font-size: clamp(3.2rem, 12vw, 4.8rem);
+      font-style: italic;
+      letter-spacing: -0.02em;
     }
 
-    .splash-title .en {
-      font-style: italic;
-      font-size: 0.65em;
-      font-weight: 400;
+    .splash-title .sub {
+      display: block;
+      margin-top: 0.9rem;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       color: var(--ink-soft);
-      margin-top: 0.4rem;
+      font-style: normal;
+    }
+
+    .splash-title .sub .dot {
+      color: var(--rule);
+      margin: 0 0.5rem;
     }
 
     .splash-prompt {
@@ -167,7 +177,6 @@
       width: 22px;
       height: 16px;
       flex-shrink: 0;
-      box-shadow: 0 0 0 1px rgba(10,10,10,0.15);
     }
 
     /* ==========================================
@@ -424,8 +433,12 @@
   <!-- SPLASH essenziale -->
   <section id="splash">
     <h1 class="splash-title">
-      <span class="it">Archivio Accademico</span>
-      <span class="en">Academic Archive</span>
+      <span class="brand">Liber</span>
+      <span class="sub">
+        <span class="it">Archivio Accademico</span>
+        <span class="dot" aria-hidden="true">·</span>
+        <span class="en">Academic Archive</span>
+      </span>
     </h1>
 
     <p class="splash-prompt">
@@ -472,8 +485,8 @@
     </p>
 
     <p class="eyebrow" data-i18n>
-      <span lang="it"><span class="ed">No. 01</span><span class="sep">·</span>Archivio Accademico</span>
-      <span lang="en"><span class="ed">No. 01</span><span class="sep">·</span>Academic Archive</span>
+      <span lang="it"><span class="ed">Liber</span><span class="sep">·</span>Archivio Accademico</span>
+      <span lang="en"><span class="ed">Liber</span><span class="sep">·</span>Academic Archive</span>
     </p>
 
     <h1 data-i18n="block">
@@ -534,8 +547,8 @@
     };
 
     const PAGE_TITLES = {
-      it: 'Archivio Accademico',
-      en: 'Academic Archive'
+      it: 'Liber — Archivio Accademico',
+      en: 'Liber — Academic Archive'
     };
 
     const STORAGE_KEY = 'archivio-lang';
