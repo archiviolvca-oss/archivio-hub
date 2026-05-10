@@ -225,7 +225,7 @@ html[data-lang="en"] [data-i18n="block"] > [lang="en"] { display: block; }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
-  animation: fadeUp 0.5s ease-out forwards, fadeOut 0.5s ease-out 2.5s forwards;
+  animation: fadeUp 0.4s ease-out forwards, fadeOut 0.4s ease-out 1s forwards;
 }
 
 .eyebrow {
@@ -236,7 +236,7 @@ html[data-lang="en"] [data-i18n="block"] > [lang="en"] { display: block; }
   text-transform: uppercase;
   color: var(--ink-soft);
   opacity: 0;
-  animation: fadeUp 0.7s ease-out 3s forwards;
+  animation: fadeUp 0.7s ease-out 1.5s forwards;
 }
 
 .eyebrow .ed {
