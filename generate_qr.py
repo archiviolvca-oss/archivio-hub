@@ -24,7 +24,7 @@ import qrcode
 from qrcode.constants import ERROR_CORRECT_H
 
 # === CONFIGURAZIONE =========================================================
-HUB_URL = "https://USERNAME.github.io/archivio-hub"   # <-- modificare qui
+HUB_URL = HUB_URL = "https://archiviolvca-oss.github.io/archivio-hub/"   # <-- modificare qui
 OUTPUT_FILE = "qr_archivio.png"
 # ============================================================================
 
