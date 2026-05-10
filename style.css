@@ -644,6 +644,22 @@ html[data-returning="true"] .actions { animation-delay: 0.8s; }
   border-color: var(--accent);
 }
 
+/* Variante footer informativo sulla home (#landing).
+   Riusa il pattern di .article-footer ma con animazione ritardata
+   coerente con la sequenza di rivelazione della landing principale,
+   e con un border-top più tenue dato che il contesto è meno denso. */
+#landing .article-footer {
+  margin-top: 2.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  opacity: 0;
+  animation: fadeUp 0.7s ease-out 3.85s forwards;
+}
+
+html[data-returning="true"] #landing .article-footer {
+  animation-delay: 0.95s;
+}
+
 /* ==========================================================================
    ANIMAZIONI E ACCESSIBILITÀ
    ========================================================================== */
