@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <!--
+    Liber — Chi sono
+    Pagina secondaria bilingue IT/EN, rev. 11 (template articolo)
+    Curata da Luca Giuliano — archivio.lvca@gmail.com
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi sono — Liber</title>
+  <meta name="description" content="Chi cura Liber: Luca, studente di Economia Aziendale all'Università di Messina.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main id="article">
+
+    <header class="article-header">
+      <a href="index.html" class="article-brand" aria-label="Torna alla home">Liber</a>
+
+      <nav class="lang-switcher" aria-label="Cambia lingua / Switch language">
+        <button type="button" data-switch="it" class="active">IT</button>
+        <span class="sep" aria-hidden="true">·</span>
+        <button type="button" data-switch="en">EN</button>
+      </nav>
+
+      <p class="article-eyebrow" data-i18n>
+        <span lang="it">Liber<span class="sep">·</span>Chi sono</span>
+        <span lang="en">Liber<span class="sep">·</span>About me</span>
+      </p>
+
+      <h1 class="article-title" data-i18n="block">
+        <span lang="it">Chi <em>sono</em></span>
+        <span lang="en">About <em>me</em></span>
+      </h1>
+
+      <div class="article-rule" aria-hidden="true"></div>
+    </header>
+
+    <article class="article-body">
+
+      <p class="lead" data-i18n="block">
+        <span lang="it">Sarò abbastanza breve: mi chiamo Luca e studio Economia Aziendale all'Università degli Studi di Messina. Fine.</span>
+        <span lang="en">I'll keep this brief: my name is Luca, and I study Business Administration at the University of Messina. That's it.</span>
+      </p>
+
+      <p data-i18n="block">
+        <span lang="it">Se ti trovi qui, immagino tu voglia comprendere meglio il servizio che offro. Pertanto, ti suggerisco di iniziare dal <a href="manifesto/manifesto-it.pdf" target="_blank" rel="noopener">Manifesto</a> su cui si fonda il tutto.</span>
+        <span lang="en">If you're here, I imagine you want to better understand the service I offer. So I'd suggest starting from the <a href="manifesto/manifesto-en.pdf" target="_blank" rel="noopener">Manifesto</a> on which everything is built.</span>
+      </p>
+
+    </article>
+
+    <footer class="article-footer">
+      <nav class="article-footer-nav" aria-label="Altre pagine / Other pages">
+        <a href="chi-sono.html" class="current" aria-current="page" data-i18n>
+          <span lang="it">Chi sono</span>
+          <span lang="en">About me</span>
+        </a>
+        <a href="come-funziona.html" data-i18n>
+          <span lang="it">Come funziona</span>
+          <span lang="en">How it works</span>
+        </a>
+        <a href="rimborso.html" data-i18n>
+          <span lang="it">Garanzia rimborso</span>
+          <span lang="en">Refund guarantee</span>
+        </a>
+        <a href="termini.html" data-i18n>
+          <span lang="it">Termini di servizio</span>
+          <span lang="en">Terms of service</span>
+        </a>
+      </nav>
+
+      <p class="article-footer-back" data-i18n="block">
+        <span lang="it">Torna alla <a href="index.html">home</a>.</span>
+        <span lang="en">Back to <a href="index.html">home</a>.</span>
+      </p>
+    </footer>
+
+  </main>
+
+  <script>
+    const PAGE_TITLES = {
+      it: 'Chi sono — Liber',
+      en: 'About me — Liber'
+    };
+
+    const STORAGE_KEY = 'archivio-lang';
+
+    function applyLanguage(lang) {
+      const htmlEl = document.documentElement;
+      htmlEl.setAttribute('data-lang', lang);
+      htmlEl.setAttribute('lang', lang);
+
+      document.title = PAGE_TITLES[lang];
+
+      document.querySelectorAll('[data-switch]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.switch === lang);
+      });
+
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignora */ }
+    }
+
+    (function init() {
+      let savedLang = null;
+      try { savedLang = localStorage.getItem(STORAGE_KEY); } catch (e) { /* ignora */ }
+
+      const lang = (savedLang === 'it' || savedLang === 'en') ? savedLang : 'it';
+      applyLanguage(lang);
+    })();
+
+    document.querySelectorAll('[data-switch]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyLanguage(btn.dataset.switch);
+      });
+    });
+  </script>
+</body>
+</html>
