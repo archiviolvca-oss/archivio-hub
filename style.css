@@ -507,6 +507,9 @@ html[data-returning="true"] .actions { animation-delay: 0.8s; }
   font-size: 0.97rem;
   color: var(--ink-soft);
   line-height: 1.65;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 .article-body strong {
@@ -563,6 +566,9 @@ html[data-returning="true"] .actions { animation-delay: 0.8s; }
   font-size: 0.97rem;
   color: var(--ink-soft);
   line-height: 1.6;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 .article-body ul li::marker {
@@ -694,4 +700,12 @@ html[data-returning="true"] #landing .article-footer {
   .lang-switcher { top: -0.25rem; }
   .article-header .lang-switcher { top: 0.4rem; }
   .article-body h2 { font-size: 1.25rem; }
+
+  /* Su schermo stretto, il giustificato produce spazi inter-parola
+     troppo ampi: torno a allineamento a sinistra, mantengo la
+     sillabazione perché aiuta comunque la leggibilità. */
+  .article-body p,
+  .article-body ul li {
+    text-align: left;
+  }
 }
